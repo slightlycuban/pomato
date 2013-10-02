@@ -1,9 +1,14 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Good morning</title>
-	</head>
-	<body>
-		<p>Hello, world!</p>
-	</body>
+<html ng-app>
+  <head>
+    <script src="js/angular.js"></script>
+    <script src="js/controllers.js"></script>
+  </head>
+  <body>
+    <div ng-controller="PomCtrl">
+      {{counter}}
+      <button ng-click="reset()">Reset</button>
+      <button ng-click="pause()">Pause</button>
+      <button ng-click="start()">Start</button>
+    </div>
+  </body>
 </html>
