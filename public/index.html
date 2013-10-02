@@ -1,19 +1,29 @@
 <html ng-app>
   <head>
     <script src="js/angular.js"></script>
+    <script src="js/ui-bootstrap.js"></script>
     <script src="js/controllers.js"></script>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="css/styles.css">
   </head>
   <body ng-controller="PomCtrl">
-    <h2>You are currently {{state}}-ing</h2>
-    <div>
-      <p>Time remaining:</p>
-      <p>{{minutes()}}:{{seconds()}}</p>
-      <div>
-        <button ng-click="reset()">Reset</button>
-        <button ng-click="pause()">Pause</button>
-        <button ng-click="start()">Start</button>
+    <div class="container">
+      <div class="hero-unit">
+        <div class="alert alert-info">
+          {{state}} time!
+        </div>
+        <h2>Time remaining:</h2>
+        <div class="well">
+          <h1 class="readout">{{minutes()}}:{{seconds()}}</h1>
+        </div>
+        <div class="btn-group">
+          <button ng-click="reset()" class="btn btn-large btn-danger">Stop</button>
+          <button ng-click="pause()" class="btn btn-large btn-warning">Pause</button>
+          <button ng-click="start()" class="btn btn-large btn-success">Start</button>
+        </div>
       </div>
-      <p>Poms: {{poms}}</p>
+      <p>You have done <span class="badge">{{poms}}</span> tomatoe(s)</p>
     </div>
   </body>
 </html>
