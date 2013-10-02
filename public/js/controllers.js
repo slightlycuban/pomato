@@ -3,7 +3,7 @@ function PomCtrl($scope, $timeout) {
   $scope.shortbreak = 5;
   $scope.pomodoro = 25;
 
-  $scope.state = 0;
+  $scope.state = PomEnum.Pomodoro;
   $scope.pomrun = 3;
   $scope.poms = 0;
 
@@ -20,7 +20,7 @@ function PomCtrl($scope, $timeout) {
     }
   }
 
-  var second = 10;
+  var second = 10; // time set to super fast for dev
   var timer;
   var running = false;
 
@@ -44,21 +44,27 @@ function PomCtrl($scope, $timeout) {
 
   function state_update() {
     switch ($scope.state) {
-      case 0:
+      case PomEnum.Pomodoro:
         $scope.poms++;
         if (($scope.poms % $scope.pomrun) === 0) {
-          $scope.state = 2;
+          $scope.state = PomEnum.Long;
           $scope.counter = $scope.longbreak;
         } else {
-          $scope.state = 1;
+          $scope.state = PomEnum.Short;
           $scope.counter = $scope.shortbreak;
         }
         break;
-      case 1:
-      case 2:
-        $scope.state = 0;
+      case PomEnum.Short:
+      case PomEnum.Long:
+        $scope.state = PomEnum.Pomodoro;
         $scope.counter = $scope.pomodoro;
         break;
     }
   }
+}
+
+var PomEnum = {
+  Pomodoro: "Pomodoro",
+  Short: "Short Break",
+  Long: "Long Break",
 }

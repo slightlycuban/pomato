@@ -3,8 +3,9 @@
     <script src="js/angular.js"></script>
     <script src="js/controllers.js"></script>
   </head>
-  <body>
-    <div ng-controller="PomCtrl">
+  <body ng-controller="PomCtrl">
+    <h2>You are currently {{state}}-ing</h2>
+    <div>
       <p>{{counter}}</p>
       <div>
         <button ng-click="reset()">Reset</button>
