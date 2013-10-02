@@ -6,7 +6,8 @@
   <body ng-controller="PomCtrl">
     <h2>You are currently {{state}}-ing</h2>
     <div>
-      <p>{{counter}}</p>
+      <p>Time remaining:</p>
+      <p>{{minutes()}}:{{seconds()}}</p>
       <div>
         <button ng-click="reset()">Reset</button>
         <button ng-click="pause()">Pause</button>
