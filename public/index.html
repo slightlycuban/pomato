@@ -5,10 +5,13 @@
   </head>
   <body>
     <div ng-controller="PomCtrl">
-      {{counter}}
-      <button ng-click="reset()">Reset</button>
-      <button ng-click="pause()">Pause</button>
-      <button ng-click="start()">Start</button>
+      <p>{{counter}}</p>
+      <div>
+        <button ng-click="reset()">Reset</button>
+        <button ng-click="pause()">Pause</button>
+        <button ng-click="start()">Start</button>
+      </div>
+      <p>Poms: {{poms}}</p>
     </div>
   </body>
 </html>
