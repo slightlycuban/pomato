@@ -26,13 +26,22 @@ function PomCtrl($scope, $timeout) {
 
   $scope.reset = function() {
     $scope.pause();
-    $scope.counter = $scope.pomodoro;
-    $scope.start();
+    switch ($scope.state) {
+      case PomEnum.Pomodoro:
+        $scope.counter = $scope.pomodoro;
+        break;
+      case PomEnum.Short:
+        $scope.counter = $scope.shortbreak;
+        break;
+      case PomEnum.Long:
+        $scope.counter = $scope.longbreak;
+        break;
+    }
   }
   
   $scope.pause = function() {
     if (running)
-      running = $timeout.cancel(timer);
+      running = !$timeout.cancel(timer);
   }
   
   $scope.start = function() {
