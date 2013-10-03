@@ -20,7 +20,7 @@ function PomCtrl($scope, $timeout) {
     }
   }
 
-  var second = 10; // time set to super fast for dev
+  var second = 1000;
   var timer;
   var running = false;
 
