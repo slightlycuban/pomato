@@ -24,7 +24,11 @@
           <button ng-click="start()" class="btn btn-large btn-success">Start</button>
         </div>
       </div>
-      <p>You have done <span class="badge">{{poms}}</span> tomatoe(s)</p>
+      <p>You have done <span class="badge">{{poms}}</span> 
+        <ng-pluralize count="poms" when="{'1': 'tomato',
+                                          'other': 'tomatoes'}">
+                                        </ng-pluralize>.
+      </p>
     </div>
   </body>
 </html>
