@@ -16,6 +16,7 @@ function PomCtrl($scope, $timeout) {
       timer = $timeout($scope.countdown, second);
     } else {
       state_update();
+      sendNotification("Time is up", { body: $scope.state + " time now"});
       running = false;
     }
   }
