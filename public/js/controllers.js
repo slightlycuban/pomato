@@ -8,6 +8,7 @@ function PomCtrl($scope, $timeout) {
   $scope.poms = 0;
 
   $scope.counter = $scope.pomodoro;
+  $scope.running = false;
 
   $scope.countdown = function() {
     $scope.counter--;
@@ -17,13 +18,12 @@ function PomCtrl($scope, $timeout) {
     } else {
       state_update();
       sendNotification("Time is up", { body: $scope.state + " time now"});
-      running = false;
+      $scope.running = false;
     }
   }
 
   var second = 1000;
   var timer;
-  var running = false;
 
   $scope.reset = function() {
     $scope.pause();
@@ -41,14 +41,14 @@ function PomCtrl($scope, $timeout) {
   }
   
   $scope.pause = function() {
-    if (running)
-      running = !$timeout.cancel(timer);
+    if ($scope.running)
+      $scope.running = !$timeout.cancel(timer);
   }
   
   $scope.start = function() {
-    if (!running) {
+    if (!$scope.running) {
       timer = $timeout($scope.countdown, second);
-      running = true;
+      $scope.running = true;
     }
   }
 
