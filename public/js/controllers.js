@@ -1,13 +1,13 @@
 function PomCtrl($scope, $timeout) {
-  $scope.longbreak = 15 * 60;
-  $scope.shortbreak = 5 * 60;
-  $scope.pomodoro = 25 * 60;
+  $scope.longbreak = 15;
+  $scope.shortbreak = 5;
+  $scope.pomodoro = 25;
 
   $scope.state = PomEnum.Pomodoro;
   $scope.pomrun = 3;
   $scope.poms = 0;
 
-  $scope.counter = $scope.pomodoro;
+  $scope.counter = $scope.pomodoro * 60;
   $scope.running = false;
 
   $scope.countdown = function() {
@@ -38,6 +38,7 @@ function PomCtrl($scope, $timeout) {
         $scope.counter = $scope.longbreak;
         break;
     }
+    $scope.counter = $scope.counter * 60;
   }
   
   $scope.pause = function() {
@@ -79,6 +80,8 @@ function PomCtrl($scope, $timeout) {
         $scope.counter = $scope.pomodoro;
         break;
     }
+
+    $scope.counter = $scope.counter * 60;
   }
 }
 
