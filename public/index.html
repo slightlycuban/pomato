@@ -13,7 +13,47 @@
     <a href="https://github.com/slightlycuban/pomato"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
     <div class="container">
       <div class="hero-unit">
+        <div class="modal hide fade" id="settings" role="dialog" aria-labelledby="settingsLabel" aria-hidden="true" tabindex="-1">
+          <div class="modal-header">
+            <h3 id="settingsLabel">Settings</h3>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+              <div class="control-group input-append">
+                <label class="control-label" for="poms">Pomodoro length</label>
+                <div class="controls">
+                  <input type="number" id="poms" class="input-mini" ng-model="pomodoro">
+                  <span class="add-on">min</span>
+                </div>
+              </div>
+              <div class="control-group input-append">
+                <label class="control-label" for="shortbreak">Short break length</label>
+                <div class="controls">
+                  <input type="number" id="shortbreak" class="input-mini" ng-model="shortbreak">
+                  <span class="add-on">min</span>
+                </div>
+              </div>
+              <div class="control-group input-append">
+                <label class="control-label" for="longbreak">Long break length</label>
+                <div class="controls">
+                  <input type="number" id="longbreak" class="input-mini" ng-model="longbreak">
+                  <span class="add-on">min</span>
+                </div>
+              </div>
+              <div class="control-group input-append">
+                <label class="control-label" for "pomrun">Pomodoros until long break</label>
+                <div class="controls">
+                  <input type="number" id="pomrun" class="input-mini" ng-model="pomrun">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn pull-right" data-dismiss="modal" aria-hidden="true">Close</a>
+          </div>
+        </div>
         <div class="alert alert-info">
+          <a href="#settings" role="button" class="btn pull-left" data-toggle="modal"><i class="icon-wrench"></i></a>
           {{state}} time!
         </div>
         <h2>Time remaining:</h2>
@@ -21,7 +61,7 @@
           <h1 class="readout">{{minutes()}}:{{seconds()}}</h1>
         </div>
         <div class="btn-group">
-          <button ng-click="reset()" class="btn btn-large btn-danger">Stop</button>
+          <button ng-click="reset()" class="btn btn-large btn-danger">Reset</button>
           <button ng-click="pause()" class="btn btn-large btn-warning">Pause</button>
           <button ng-click="start()" class="btn btn-large btn-success">Start</button>
         </div>
