@@ -1,0 +1,15 @@
+.container * {
+	text-align: center;
+}
+
+#settings h3 {
+  text-align: left;
+}
+
+.readout {
+  font-family: monospace;
+}
+
+input[type="number"] {
+  text-align: right;
+}

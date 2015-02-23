@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app ng-controller="PomCtrl">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="js/notification.js"></script>
+    <script src="js/controllers.js"></script>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="css/styles.css">
+		<title>{{minutes()}}:{{seconds()}} remaing</title>
+  </head>
+  <body>
+    <a href="https://github.com/slightlycuban/pomato"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+    <div class="container">
+      <div class="hero-unit">
+        <div class="modal hide fade" id="settings" role="dialog" aria-labelledby="settingsLabel" aria-hidden="true" tabindex="-1">
+          <div class="modal-header">
+            <h3 id="settingsLabel">Settings</h3>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+							 <div ng-show="running" class="alert alert-warning">
+									<strong>Watch out!</strong> To finish changing this, you must Reset the timer.
+							 </div>
+              <div class="control-group input-append">
+                <label class="control-label" for="poms">Pomodoro length</label>
+                <div class="controls">
+                  <input type="number" id="poms" class="input-mini" ng-model="pomodoro">
+                  <span class="add-on">min</span>
+                </div>
+              </div>
+              <div class="control-group input-append">
+                <label class="control-label" for="shortbreak">Short break length</label>
+                <div class="controls">
+                  <input type="number" id="shortbreak" class="input-mini" ng-model="shortbreak">
+                  <span class="add-on">min</span>
+                </div>
+              </div>
+              <div class="control-group input-append">
+                <label class="control-label" for="longbreak">Long break length</label>
+                <div class="controls">
+                  <input type="number" id="longbreak" class="input-mini" ng-model="longbreak">
+                  <span class="add-on">min</span>
+                </div>
+              </div>
+              <div class="control-group input-append">
+                <label class="control-label" for "pomrun">Pomodoros until long break</label>
+                <div class="controls">
+                  <input type="number" id="pomrun" class="input-mini" ng-model="pomrun">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn pull-right" data-dismiss="modal" aria-hidden="true">Close</a>
+          </div>
+        </div>
+        <div class="alert alert-info">
+          <a href="#settings" role="button" class="btn pull-left" data-toggle="modal"><i class="icon-wrench"></i></a>
+          {{state}} time!
+        </div>
+        <h2>Time remaining:</h2>
+        <div class="well">
+          <h1 class="readout">{{minutes()}}:{{seconds()}}</h1>
+        </div>
+        <div class="btn-group">
+          <button ng-click="reset()" class="btn btn-large btn-danger">Reset</button>
+          <button ng-click="pause()" class="btn btn-large btn-warning">Pause</button>
+          <button ng-click="start()" class="btn btn-large btn-success">Start</button>
+        </div>
+      </div>
+      <p>You have done <span class="badge">{{poms}}</span> 
+        <ng-pluralize count="poms" when="{'1': 'tomato',
+                                          'other': 'tomatoes'}">
+                                        </ng-pluralize>.
+      </p>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
