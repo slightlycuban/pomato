@@ -10,8 +10,13 @@ function PomCtrl($scope, $timeout) {
   $scope.counter = $scope.pomodoro * 60;
   $scope.running = false;
 
+  var time;
+
   $scope.countdown = function() {
-    $scope.counter--;
+    var now = new Date().getTime();
+    var elapsed = now - time;
+    $scope.counter -= (elapsed / second);
+    time = now;
 
     if ($scope.counter > 0) {
       timer = $timeout($scope.countdown, second);
@@ -20,7 +25,7 @@ function PomCtrl($scope, $timeout) {
       sendNotification("Time is up", { body: $scope.state + " time now"});
       $scope.running = false;
     }
-  }
+  };
 
   var second = 1000;
   var timer;
@@ -39,28 +44,29 @@ function PomCtrl($scope, $timeout) {
         break;
     }
     $scope.counter = $scope.counter * 60;
-  }
+  };
   
   $scope.pause = function() {
     if ($scope.running)
       $scope.running = !$timeout.cancel(timer);
-  }
+  };
   
   $scope.start = function() {
     if (!$scope.running) {
+      time = new Date().getTime();
       timer = $timeout($scope.countdown, second);
       $scope.running = true;
     }
-  }
+  };
 
   $scope.minutes = function() {
     //return Math.floor($scope.counter / 60)
     return padzero(~~($scope.counter / 60), 2);
-  }
+  };
 
   $scope.seconds = function() {
-    return padzero($scope.counter % 60, 2);
-  }
+    return padzero(~~($scope.counter % 60), 2);
+  };
 
   function state_update() {
     switch ($scope.state) {
@@ -89,7 +95,7 @@ var PomEnum = {
   Pomodoro: "Pomodoro",
   Short: "Short Break",
   Long: "Long Break",
-}
+};
 
 function padzero(number, width) {
   var str = number + "";
