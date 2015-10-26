@@ -1,3 +1,9 @@
+// request permission on page load
+document.addEventListener('DOMContentLoaded', function () {
+  if (Notification.permission !== "granted")
+    Notification.requestPermission();
+});
+
 function sendNotification (title, options) {
   // Memoize based on feature detection.
   if ("Notification" in window) {
