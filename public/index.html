@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="pomato" ng-controller="PomCtrl">
+<html ng-app="pomato" ng-controller="PomCtrl as pom">
   <head>
     <meta charset="utf-8">
     <link href="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" integrity="sha256-LW6TXOOSwZq31DeFL497cCvqAv7I2QGzxC/eF2S5cwA= sha512-3dYKkHDelxxaf4j8fXlVbNiNGd3IPo6yViEuhtGCzzGqXlVq7+cGov1U3M5QhfsxxZsE7WmjCRQIFqxVgoGx8w==" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
-		<title>{{minutes()}}:{{seconds()}} remaing</title>
+		<title>{{pom.minutes()}}:{{pom.seconds()}} remaing</title>
   </head>
   <body>
     <a href="https://github.com/slightlycuban/pomato"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
@@ -54,16 +54,16 @@
         </div>
         <div class="alert alert-info">
           <a href="#settings" role="button" class="btn pull-left" data-toggle="modal"><i class="icon-wrench"></i></a>
-          {{state}} time!
+          {{pom.state}} time!
         </div>
         <h2>Time remaining:</h2>
         <div class="well">
-          <h1 class="readout">{{minutes()}}:{{seconds()}}</h1>
+          <h1 class="readout">{{pom.minutes()}}:{{pom.seconds()}}</h1>
         </div>
         <div class="btn-group">
-          <button ng-click="reset()" class="btn btn-large btn-danger">Reset</button>
-          <button ng-click="pause()" class="btn btn-large btn-warning">Pause</button>
-          <button ng-click="start()" class="btn btn-large btn-success">Start</button>
+          <button ng-click="pom.reset()" class="btn btn-large btn-danger">Reset</button>
+          <button ng-click="pom.pause()" class="btn btn-large btn-warning">Pause</button>
+          <button ng-click="pom.start()" class="btn btn-large btn-success">Start</button>
         </div>
       </div>
       <p>You have done <span class="badge">{{poms}}</span> 
