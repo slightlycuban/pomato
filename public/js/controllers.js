@@ -1,3 +1,7 @@
+(function() {
+angular.module('pomato', [])
+.controller('PomCtrl', ['$scope', '$timeout', PomCtrl]);
+
 function PomCtrl($scope, $timeout) {
   $scope.longbreak = 15;
   $scope.shortbreak = 5;
@@ -104,3 +108,4 @@ function padzero(number, width) {
   }
   return str;
 }
+})();
