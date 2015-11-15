@@ -54,11 +54,11 @@
         </div>
         <div class="alert alert-info">
           <a href="#settings" role="button" class="btn pull-left" data-toggle="modal"><i class="icon-wrench"></i></a>
-          {{pom.state}} time!
+          <span ng-bind="pom.state"></span> time!
         </div>
         <h2>Time remaining:</h2>
         <div class="well">
-          <h1 class="readout">{{pom.minutes()}}:{{pom.seconds()}}</h1>
+          <h1 class="readout"><span ng-bind="pom.minutes()"></span>:<span ng-bind="pom.seconds()"></span></h1>
         </div>
         <div class="btn-group">
           <button ng-click="pom.reset()" class="btn btn-large btn-danger">Reset</button>
@@ -66,7 +66,7 @@
           <button ng-click="pom.start()" class="btn btn-large btn-success">Start</button>
         </div>
       </div>
-      <p>You have done <span class="badge">{{pom.poms}}</span> 
+      <p>You have done <span class="badge" ng-bind="pom.poms"></span> 
         <ng-pluralize count="pom.poms" when="{'1': 'tomato',
                                           'other': 'tomatoes'}">
                                         </ng-pluralize>.
