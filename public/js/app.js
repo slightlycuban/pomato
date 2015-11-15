@@ -19,7 +19,6 @@ function PomCtrl($timeout) {
   self.running = false;
 
   // Actions
-  self.countdown = countdown;
   self.reset = reset;
   self.pause = pause;
   self.start = start;
@@ -37,7 +36,7 @@ function PomCtrl($timeout) {
     time = now;
 
     if (self.counter > 0) {
-      timer = $timeout(self.countdown, second);
+      timer = $timeout(countdown, second);
     } else {
       state_update();
       sendNotification("Time is up", { body: self.state + " time now"});
@@ -73,7 +72,7 @@ function PomCtrl($timeout) {
   function start() {
     if (!self.running) {
       time = new Date().getTime();
-      timer = $timeout(self.countdown, second);
+      timer = $timeout(countdown, second);
       self.running = true;
     }
   }
