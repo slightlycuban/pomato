@@ -1,19 +1,19 @@
 (function() {
 angular.module('pomato', [])
-.controller('PomCtrl', ['$scope', '$timeout', PomCtrl]);
+.controller('PomCtrl', ['$timeout', PomCtrl]);
 
-function PomCtrl($scope, $timeout) {
+function PomCtrl($timeout) {
   var self = this;
-  $scope.longbreak = 15;
-  $scope.shortbreak = 5;
-  $scope.pomodoro = 25;
+  self.longbreak = 15;
+  self.shortbreak = 5;
+  self.pomodoro = 25;
 
   self.state = PomEnum.Pomodoro;
-  $scope.pomrun = 3;
-  $scope.poms = 0;
+  self.pomrun = 3;
+  self.poms = 0;
 
-  self.counter = $scope.pomodoro * 60;
-  $scope.running = false;
+  self.counter = self.pomodoro * 60;
+  self.running = false;
 
   var time;
 
@@ -28,7 +28,7 @@ function PomCtrl($scope, $timeout) {
     } else {
       state_update();
       sendNotification("Time is up", { body: self.state + " time now"});
-      $scope.running = false;
+      self.running = false;
     }
   };
 
@@ -39,28 +39,28 @@ function PomCtrl($scope, $timeout) {
     self.pause();
     switch (self.state) {
       case PomEnum.Pomodoro:
-        self.counter = $scope.pomodoro;
+        self.counter = self.pomodoro;
         break;
       case PomEnum.Short:
-        self.counter = $scope.shortbreak;
+        self.counter = self.shortbreak;
         break;
       case PomEnum.Long:
-        self.counter = $scope.longbreak;
+        self.counter = self.longbreak;
         break;
     }
     self.counter = self.counter * 60;
   };
   
   self.pause = function() {
-    if ($scope.running)
-      $scope.running = !$timeout.cancel(timer);
+    if (self.running)
+      self.running = !$timeout.cancel(timer);
   };
   
   self.start = function() {
-    if (!$scope.running) {
+    if (!self.running) {
       time = new Date().getTime();
       timer = $timeout(self.countdown, second);
-      $scope.running = true;
+      self.running = true;
     }
   };
 
@@ -76,19 +76,19 @@ function PomCtrl($scope, $timeout) {
   function state_update() {
     switch (self.state) {
       case PomEnum.Pomodoro:
-        $scope.poms++;
-        if (($scope.poms % $scope.pomrun) === 0) {
+        self.poms++;
+        if ((self.poms % self.pomrun) === 0) {
           self.state = PomEnum.Long;
-          self.counter = $scope.longbreak;
+          self.counter = self.longbreak;
         } else {
           self.state = PomEnum.Short;
-          self.counter = $scope.shortbreak;
+          self.counter = self.shortbreak;
         }
         break;
       case PomEnum.Short:
       case PomEnum.Long:
         self.state = PomEnum.Pomodoro;
-        self.counter = $scope.pomodoro;
+        self.counter = self.pomodoro;
         break;
     }
 

@@ -16,34 +16,34 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
-							 <div ng-show="running" class="alert alert-warning">
+							 <div ng-show="pom.running" class="alert alert-warning">
 									<strong>Watch out!</strong> To finish changing this, you must Reset the timer.
 							 </div>
               <div class="control-group input-append">
                 <label class="control-label" for="poms">Pomodoro length</label>
                 <div class="controls">
-                  <input type="number" id="poms" class="input-mini" ng-model="pomodoro">
+                  <input type="number" id="poms" class="input-mini" ng-model="pom.pomodoro">
                   <span class="add-on">min</span>
                 </div>
               </div>
               <div class="control-group input-append">
                 <label class="control-label" for="shortbreak">Short break length</label>
                 <div class="controls">
-                  <input type="number" id="shortbreak" class="input-mini" ng-model="shortbreak">
+                  <input type="number" id="shortbreak" class="input-mini" ng-model="pom.shortbreak">
                   <span class="add-on">min</span>
                 </div>
               </div>
               <div class="control-group input-append">
                 <label class="control-label" for="longbreak">Long break length</label>
                 <div class="controls">
-                  <input type="number" id="longbreak" class="input-mini" ng-model="longbreak">
+                  <input type="number" id="longbreak" class="input-mini" ng-model="pom.longbreak">
                   <span class="add-on">min</span>
                 </div>
               </div>
               <div class="control-group input-append">
                 <label class="control-label" for "pomrun">Pomodoros until long break</label>
                 <div class="controls">
-                  <input type="number" id="pomrun" class="input-mini" ng-model="pomrun">
+                  <input type="number" id="pomrun" class="input-mini" ng-model="pom.pomrun">
                 </div>
               </div>
             </form>
@@ -66,8 +66,8 @@
           <button ng-click="pom.start()" class="btn btn-large btn-success">Start</button>
         </div>
       </div>
-      <p>You have done <span class="badge">{{poms}}</span> 
-        <ng-pluralize count="poms" when="{'1': 'tomato',
+      <p>You have done <span class="badge">{{pom.poms}}</span> 
+        <ng-pluralize count="pom.poms" when="{'1': 'tomato',
                                           'other': 'tomatoes'}">
                                         </ng-pluralize>.
       </p>
