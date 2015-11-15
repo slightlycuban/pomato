@@ -4,20 +4,33 @@ angular.module('pomato', [])
 
 function PomCtrl($timeout) {
   var self = this;
+  // Settings
   self.longbreak = 15;
   self.shortbreak = 5;
   self.pomodoro = 25;
-
-  self.state = PomEnum.Pomodoro;
   self.pomrun = 3;
+
+  // Pomato state
+  self.state = PomEnum.Pomodoro;
   self.poms = 0;
 
+  // Timer
   self.counter = self.pomodoro * 60;
   self.running = false;
 
+  // Actions
+  self.countdown = countdown;
+  self.reset = reset;
+  self.pause = pause;
+  self.start = start;
+
+  // Display
+  self.remaining = remaining;
+  self.title = title;
+
   var time;
 
-  self.countdown = function() {
+  function countdown() {
     var now = new Date().getTime();
     var elapsed = now - time;
     self.counter -= (elapsed / second);
@@ -30,12 +43,12 @@ function PomCtrl($timeout) {
       sendNotification("Time is up", { body: self.state + " time now"});
       self.running = false;
     }
-  };
+  }
 
   var second = 1000;
   var timer;
 
-  self.reset = function() {
+  function reset() {
     self.pause();
     switch (self.state) {
       case PomEnum.Pomodoro:
@@ -49,30 +62,31 @@ function PomCtrl($timeout) {
         break;
     }
     self.counter = self.counter * 60;
-  };
+  }
   
-  self.pause = function() {
-    if (self.running)
+  function pause() {
+    if (self.running) {
       self.running = !$timeout.cancel(timer);
-  };
+    }
+  }
   
-  self.start = function() {
+  function start() {
     if (!self.running) {
       time = new Date().getTime();
       timer = $timeout(self.countdown, second);
       self.running = true;
     }
-  };
+  }
 
-  self.remaining = function() {
+  function remaining() {
     return padzero(~~(self.counter / 60), 2) +
       ":" +
       padzero(~~(self.counter % 60), 2);
-  };
+  }
 
-  self.title = function () {
+  function title() {
     return self.remaining() + " remaing";
-  };
+  }
 
   function state_update() {
     switch (self.state) {
