@@ -64,13 +64,14 @@ function PomCtrl($timeout) {
     }
   };
 
-  self.minutes = function() {
-    //return Math.floor(self.counter / 60)
-    return padzero(~~(self.counter / 60), 2);
+  self.remaining = function() {
+    return padzero(~~(self.counter / 60), 2) +
+      ":" +
+      padzero(~~(self.counter % 60), 2);
   };
 
-  self.seconds = function() {
-    return padzero(~~(self.counter % 60), 2);
+  self.title = function () {
+    return self.remaining() + " remaing";
   };
 
   function state_update() {
