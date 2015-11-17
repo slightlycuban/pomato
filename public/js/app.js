@@ -15,7 +15,7 @@ function PomCtrl($timeout) {
   self.poms = 0;
 
   // Timer
-  self.counter = self.pomodoro * 60;
+  var counter = self.pomodoro * 60;
   self.running = false;
 
   // Actions
@@ -32,10 +32,10 @@ function PomCtrl($timeout) {
   function countdown() {
     var now = new Date().getTime();
     var elapsed = now - time;
-    self.counter -= (elapsed / second);
+    counter -= (elapsed / second);
     time = now;
 
-    if (self.counter > 0) {
+    if (counter > 0) {
       timer = $timeout(countdown, second);
     } else {
       state_update();
@@ -51,16 +51,16 @@ function PomCtrl($timeout) {
     self.pause();
     switch (self.state) {
       case PomEnum.Pomodoro:
-        self.counter = self.pomodoro;
+        counter = self.pomodoro;
         break;
       case PomEnum.Short:
-        self.counter = self.shortbreak;
+        counter = self.shortbreak;
         break;
       case PomEnum.Long:
-        self.counter = self.longbreak;
+        counter = self.longbreak;
         break;
     }
-    self.counter = self.counter * 60;
+    counter = counter * 60;
   }
   
   function pause() {
@@ -78,9 +78,9 @@ function PomCtrl($timeout) {
   }
 
   function remaining() {
-    return padzero(~~(self.counter / 60), 2) +
+    return padzero(~~(counter / 60), 2) +
       ":" +
-      padzero(~~(self.counter % 60), 2);
+      padzero(~~(counter % 60), 2);
   }
 
   function title() {
@@ -93,20 +93,20 @@ function PomCtrl($timeout) {
         self.poms++;
         if ((self.poms % self.pomrun) === 0) {
           self.state = PomEnum.Long;
-          self.counter = self.longbreak;
+          counter = self.longbreak;
         } else {
           self.state = PomEnum.Short;
-          self.counter = self.shortbreak;
+          counter = self.shortbreak;
         }
         break;
       case PomEnum.Short:
       case PomEnum.Long:
         self.state = PomEnum.Pomodoro;
-        self.counter = self.pomodoro;
+        counter = self.pomodoro;
         break;
     }
 
-    self.counter = self.counter * 60;
+    counter = counter * 60;
   }
 }
 
