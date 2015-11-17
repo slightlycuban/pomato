@@ -1,21 +1,28 @@
 (function() {
 angular.module('pomato', [])
-.controller('PomCtrl', ['$timeout', PomCtrl]);
+.factory('SettingsSvc', [SettingsSvc])
+.controller('PomCtrl', ['$timeout', 'SettingsSvc', PomCtrl]);
 
-function PomCtrl($timeout) {
+function SettingsSvc() {
+  return {
+    longbreak: 15,
+    shortbreak: 5,
+    pomodoro: 25,
+    pomrun: 3
+  };
+}
+
+function PomCtrl($timeout, settings) {
   var self = this;
   // Settings
-  self.longbreak = 15;
-  self.shortbreak = 5;
-  self.pomodoro = 25;
-  self.pomrun = 3;
+  self.settings = settings;
 
   // Pomato state
   self.state = PomEnum.Pomodoro;
   self.poms = 0;
 
   // Timer
-  var counter = self.pomodoro * 60;
+  var counter = self.settings.pomodoro * 60;
   self.running = false;
 
   // Actions
@@ -51,13 +58,13 @@ function PomCtrl($timeout) {
     self.pause();
     switch (self.state) {
       case PomEnum.Pomodoro:
-        counter = self.pomodoro;
+        counter = self.settings.pomodoro;
         break;
       case PomEnum.Short:
-        counter = self.shortbreak;
+        counter = self.settings.shortbreak;
         break;
       case PomEnum.Long:
-        counter = self.longbreak;
+        counter = self.settings.longbreak;
         break;
     }
     counter = counter * 60;
@@ -91,18 +98,18 @@ function PomCtrl($timeout) {
     switch (self.state) {
       case PomEnum.Pomodoro:
         self.poms++;
-        if ((self.poms % self.pomrun) === 0) {
+        if ((self.poms % self.settings.pomrun) === 0) {
           self.state = PomEnum.Long;
-          counter = self.longbreak;
+          counter = self.settings.longbreak;
         } else {
           self.state = PomEnum.Short;
-          counter = self.shortbreak;
+          counter = self.settings.shortbreak;
         }
         break;
       case PomEnum.Short:
       case PomEnum.Long:
         self.state = PomEnum.Pomodoro;
-        counter = self.pomodoro;
+        counter = self.settings.pomodoro;
         break;
     }
 
