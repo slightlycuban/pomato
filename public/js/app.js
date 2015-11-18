@@ -1,7 +1,8 @@
 (function() {
 angular.module('pomato', [])
 .factory('SettingsSvc', [SettingsSvc])
-.controller('PomCtrl', ['$timeout', 'SettingsSvc', PomCtrl]);
+.factory('TimerSvc', ['$timeout', 'SettingsSvc', TimerSvc])
+.controller('PomCtrl', ['SettingsSvc', 'TimerSvc', PomCtrl]);
 
 function SettingsSvc() {
   return {
@@ -12,8 +13,8 @@ function SettingsSvc() {
   };
 }
 
-function PomCtrl($timeout, settings) {
-  var self = this;
+function TimerSvc($timeout, settings) {
+  var self = {};
   // Settings
   self.settings = settings;
 
@@ -32,7 +33,6 @@ function PomCtrl($timeout, settings) {
 
   // Display
   self.remaining = remaining;
-  self.title = title;
 
   var time;
 
@@ -90,10 +90,6 @@ function PomCtrl($timeout, settings) {
       padzero(~~(counter % 60), 2);
   }
 
-  function title() {
-    return self.remaining() + " remaing";
-  }
-
   function state_update() {
     switch (self.state) {
       case PomEnum.Pomodoro:
@@ -114,6 +110,24 @@ function PomCtrl($timeout, settings) {
     }
 
     counter = counter * 60;
+  }
+
+  return self;
+}
+
+function PomCtrl(settings, timer) {
+  var self = this;
+  // Settings
+  self.settings = settings;
+
+  self.timer = timer;
+
+  // Display
+  self.remaining = timer.remaining;
+  self.title = title;
+
+  function title() {
+    return self.remaining() + " remaing";
   }
 }
 
