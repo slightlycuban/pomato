@@ -15,15 +15,13 @@ function SettingsSvc() {
 
 function TimerSvc($timeout, settings) {
   var self = {};
-  // Settings
-  self.settings = settings;
 
   // Pomato state
   self.state = PomEnum.Pomodoro;
   self.poms = 0;
 
   // Timer
-  self.counter = self.settings.pomodoro * 60;
+  self.counter = minutesToMillis(settings.pomodoro);
   self.running = false;
 
   // Actions
@@ -31,19 +29,16 @@ function TimerSvc($timeout, settings) {
   self.pause = pause;
   self.start = start;
 
-  // Display
-  self.remaining = remaining;
-
   var time;
 
   function countdown() {
     var now = new Date().getTime();
     var elapsed = now - time;
-    self.counter -= (elapsed / second);
+    self.counter -= elapsed;
     time = now;
 
     if (self.counter > 0) {
-      timer = $timeout(countdown, second);
+      timer = $timeout(countdown, refreshInterval);
     } else {
       state_update();
       sendNotification("Time is up", { body: self.state + " time now"});
@@ -51,23 +46,22 @@ function TimerSvc($timeout, settings) {
     }
   }
 
-  var second = 1000;
+  var refreshInterval = 1000;
   var timer;
 
   function reset() {
     self.pause();
     switch (self.state) {
       case PomEnum.Pomodoro:
-        self.counter = self.settings.pomodoro;
+        self.counter = minutesToMillis(settings.pomodoro);
         break;
       case PomEnum.Short:
-        self.counter = self.settings.shortbreak;
+        self.counter = minutesToMillis(settings.shortbreak);
         break;
       case PomEnum.Long:
-        self.counter = self.settings.longbreak;
+        self.counter = minutesToMillis(settings.longbreak);
         break;
     }
-    self.counter = self.counter * 60;
   }
   
   function pause() {
@@ -79,37 +73,33 @@ function TimerSvc($timeout, settings) {
   function start() {
     if (!self.running) {
       time = new Date().getTime();
-      timer = $timeout(countdown, second);
+      timer = $timeout(countdown, refreshInterval);
       self.running = true;
     }
-  }
-
-  function remaining() {
-    return padzero(~~(self.counter / 60), 2) +
-      ":" +
-      padzero(~~(self.counter % 60), 2);
   }
 
   function state_update() {
     switch (self.state) {
       case PomEnum.Pomodoro:
         self.poms++;
-        if ((self.poms % self.settings.pomrun) === 0) {
+        if ((self.poms % settings.pomrun) === 0) {
           self.state = PomEnum.Long;
-          self.counter = self.settings.longbreak;
+          self.counter = minutesToMillis(settings.longbreak);
         } else {
           self.state = PomEnum.Short;
-          self.counter = self.settings.shortbreak;
+          self.counter = minutesToMillis(settings.shortbreak);
         }
         break;
       case PomEnum.Short:
       case PomEnum.Long:
         self.state = PomEnum.Pomodoro;
-        self.counter = self.settings.pomodoro;
+        self.counter = minutesToMillis(settings.pomodoro);
         break;
     }
+  }
 
-    self.counter = self.counter * 60;
+  function minutesToMillis(minutes) {
+    return minutes * 60 * 1000;
   }
 
   return self;
@@ -123,11 +113,26 @@ function PomCtrl(settings, timer) {
   self.timer = timer;
 
   // Display
-  self.remaining = timer.remaining;
+  self.remaining = remaining;
   self.title = title;
 
+  function remaining() {
+    var secondsRemaining = timer.counter / 1000;
+    return padzero(~~(secondsRemaining / 60), 2) +
+      ":" +
+      padzero(~~(secondsRemaining % 60), 2);
+  }
+
   function title() {
-    return self.remaining() + " remaing";
+    return remaining() + " remaing";
+  }
+
+  function padzero(number, width) {
+    var str = number + "";
+    while (str.length < width) {
+      str = "0" + str;
+    }
+    return str;
   }
 }
 
@@ -136,12 +141,4 @@ var PomEnum = {
   Short: "Short Break",
   Long: "Long Break",
 };
-
-function padzero(number, width) {
-  var str = number + "";
-  while (str.length < width) {
-    str = "0" + str;
-  }
-  return str;
-}
 })();
