@@ -23,7 +23,7 @@ function TimerSvc($timeout, settings) {
   self.poms = 0;
 
   // Timer
-  var counter = self.settings.pomodoro * 60;
+  self.counter = self.settings.pomodoro * 60;
   self.running = false;
 
   // Actions
@@ -39,10 +39,10 @@ function TimerSvc($timeout, settings) {
   function countdown() {
     var now = new Date().getTime();
     var elapsed = now - time;
-    counter -= (elapsed / second);
+    self.counter -= (elapsed / second);
     time = now;
 
-    if (counter > 0) {
+    if (self.counter > 0) {
       timer = $timeout(countdown, second);
     } else {
       state_update();
@@ -58,16 +58,16 @@ function TimerSvc($timeout, settings) {
     self.pause();
     switch (self.state) {
       case PomEnum.Pomodoro:
-        counter = self.settings.pomodoro;
+        self.counter = self.settings.pomodoro;
         break;
       case PomEnum.Short:
-        counter = self.settings.shortbreak;
+        self.counter = self.settings.shortbreak;
         break;
       case PomEnum.Long:
-        counter = self.settings.longbreak;
+        self.counter = self.settings.longbreak;
         break;
     }
-    counter = counter * 60;
+    self.counter = self.counter * 60;
   }
   
   function pause() {
@@ -85,9 +85,9 @@ function TimerSvc($timeout, settings) {
   }
 
   function remaining() {
-    return padzero(~~(counter / 60), 2) +
+    return padzero(~~(self.counter / 60), 2) +
       ":" +
-      padzero(~~(counter % 60), 2);
+      padzero(~~(self.counter % 60), 2);
   }
 
   function state_update() {
@@ -96,20 +96,20 @@ function TimerSvc($timeout, settings) {
         self.poms++;
         if ((self.poms % self.settings.pomrun) === 0) {
           self.state = PomEnum.Long;
-          counter = self.settings.longbreak;
+          self.counter = self.settings.longbreak;
         } else {
           self.state = PomEnum.Short;
-          counter = self.settings.shortbreak;
+          self.counter = self.settings.shortbreak;
         }
         break;
       case PomEnum.Short:
       case PomEnum.Long:
         self.state = PomEnum.Pomodoro;
-        counter = self.settings.pomodoro;
+        self.counter = self.settings.pomodoro;
         break;
     }
 
-    counter = counter * 60;
+    self.counter = self.counter * 60;
   }
 
   return self;
