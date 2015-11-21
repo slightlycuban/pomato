@@ -1,8 +1,9 @@
 (function() {
 angular.module('pomato', [])
+.value('millisPer', { second: 1000, minute: 60 * 1000 })
 .factory('SettingsSvc', [SettingsSvc])
-.factory('TimerSvc', ['$timeout', 'SettingsSvc', TimerSvc])
-.controller('PomCtrl', ['SettingsSvc', 'TimerSvc', PomCtrl]);
+.factory('TimerSvc', ['$timeout', 'SettingsSvc', 'millisPer', TimerSvc])
+.controller('PomCtrl', ['SettingsSvc', 'TimerSvc', 'millisPer', PomCtrl]);
 
 function SettingsSvc() {
   return {
@@ -13,7 +14,7 @@ function SettingsSvc() {
   };
 }
 
-function TimerSvc($timeout, settings) {
+function TimerSvc($timeout, settings, millisPer) {
   var self = {};
 
   // Pomato state
@@ -99,13 +100,13 @@ function TimerSvc($timeout, settings) {
   }
 
   function minutesToMillis(minutes) {
-    return minutes * 60 * 1000;
+    return minutes * millisPer.minute;
   }
 
   return self;
 }
 
-function PomCtrl(settings, timer) {
+function PomCtrl(settings, timer, millisPer) {
   var self = this;
   // Settings
   self.settings = settings;
@@ -117,7 +118,7 @@ function PomCtrl(settings, timer) {
   self.title = title;
 
   function remaining() {
-    var secondsRemaining = timer.counter / 1000;
+    var secondsRemaining = timer.counter / millisPer.second;
     return padzero(~~(secondsRemaining / 60), 2) +
       ":" +
       padzero(~~(secondsRemaining % 60), 2);
