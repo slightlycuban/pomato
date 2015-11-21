@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html ng-app ng-controller="PomCtrl">
+<html ng-app="pomato" ng-controller="PomCtrl as pom">
   <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="js/notification.js"></script>
-    <script src="js/controllers.js"></script>
-    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap/css/bootstrap-responsive.css">
+    <meta charset="utf-8">
+    <link href="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" integrity="sha256-LW6TXOOSwZq31DeFL497cCvqAv7I2QGzxC/eF2S5cwA= sha512-3dYKkHDelxxaf4j8fXlVbNiNGd3IPo6yViEuhtGCzzGqXlVq7+cGov1U3M5QhfsxxZsE7WmjCRQIFqxVgoGx8w==" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
-		<title>{{minutes()}}:{{seconds()}} remaing</title>
+		<title ng-bind="pom.title()">Pomato</title>
   </head>
   <body>
     <a href="https://github.com/slightlycuban/pomato"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
@@ -19,34 +16,34 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
-							 <div ng-show="running" class="alert alert-warning">
+							 <div ng-show="pom.running" class="alert alert-warning">
 									<strong>Watch out!</strong> To finish changing this, you must Reset the timer.
 							 </div>
               <div class="control-group input-append">
                 <label class="control-label" for="poms">Pomodoro length</label>
                 <div class="controls">
-                  <input type="number" id="poms" class="input-mini" ng-model="pomodoro">
+                  <input type="number" id="poms" class="input-mini" ng-model="pom.pomodoro">
                   <span class="add-on">min</span>
                 </div>
               </div>
               <div class="control-group input-append">
                 <label class="control-label" for="shortbreak">Short break length</label>
                 <div class="controls">
-                  <input type="number" id="shortbreak" class="input-mini" ng-model="shortbreak">
+                  <input type="number" id="shortbreak" class="input-mini" ng-model="pom.shortbreak">
                   <span class="add-on">min</span>
                 </div>
               </div>
               <div class="control-group input-append">
                 <label class="control-label" for="longbreak">Long break length</label>
                 <div class="controls">
-                  <input type="number" id="longbreak" class="input-mini" ng-model="longbreak">
+                  <input type="number" id="longbreak" class="input-mini" ng-model="pom.longbreak">
                   <span class="add-on">min</span>
                 </div>
               </div>
               <div class="control-group input-append">
                 <label class="control-label" for "pomrun">Pomodoros until long break</label>
                 <div class="controls">
-                  <input type="number" id="pomrun" class="input-mini" ng-model="pomrun">
+                  <input type="number" id="pomrun" class="input-mini" ng-model="pom.pomrun">
                 </div>
               </div>
             </form>
@@ -57,25 +54,28 @@
         </div>
         <div class="alert alert-info">
           <a href="#settings" role="button" class="btn pull-left" data-toggle="modal"><i class="icon-wrench"></i></a>
-          {{state}} time!
+          <span ng-bind="pom.state"></span> time!
         </div>
         <h2>Time remaining:</h2>
         <div class="well">
-          <h1 class="readout">{{minutes()}}:{{seconds()}}</h1>
+          <h1 class="readout" ng-bind="pom.remaining()"></h1>
         </div>
         <div class="btn-group">
-          <button ng-click="reset()" class="btn btn-large btn-danger">Reset</button>
-          <button ng-click="pause()" class="btn btn-large btn-warning">Pause</button>
-          <button ng-click="start()" class="btn btn-large btn-success">Start</button>
+          <button ng-click="pom.reset()" class="btn btn-large btn-danger">Reset</button>
+          <button ng-click="pom.pause()" class="btn btn-large btn-warning">Pause</button>
+          <button ng-click="pom.start()" class="btn btn-large btn-success">Start</button>
         </div>
       </div>
-      <p>You have done <span class="badge">{{poms}}</span> 
-        <ng-pluralize count="poms" when="{'1': 'tomato',
+      <p>You have done <span class="badge" ng-bind="pom.poms"></span> 
+        <ng-pluralize count="pom.poms" when="{'1': 'tomato',
                                           'other': 'tomatoes'}">
                                         </ng-pluralize>.
       </p>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js" integrity="sha256-fB1UC3A05HkOzoJiKFTB+/NPDUKX8xZ9kU+wndrmy0w= sha512-B5kWL4fSpqx5Ms7L4EH7MoTuZGY8F7ut/kOedQ52jU70qppzvME1NRKuCtqBNpjdjdg3KnU5RvMYuyZcqywtqg==" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>
+    <script src="js/notification.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
