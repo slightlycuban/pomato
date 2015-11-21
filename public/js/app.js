@@ -1,8 +1,9 @@
 (function() {
 angular.module('pomato', [])
+.constant('config', { refresh: 1000 })
 .value('millisPer', { second: 1000, minute: 60 * 1000 })
 .factory('SettingsSvc', [SettingsSvc])
-.factory('TimerSvc', ['$timeout', 'SettingsSvc', 'millisPer', TimerSvc])
+.factory('TimerSvc', ['$timeout', 'SettingsSvc', 'millisPer', 'config', TimerSvc])
 .controller('PomCtrl', ['SettingsSvc', 'TimerSvc', 'millisPer', PomCtrl]);
 
 function SettingsSvc() {
@@ -14,7 +15,7 @@ function SettingsSvc() {
   };
 }
 
-function TimerSvc($timeout, settings, millisPer) {
+function TimerSvc($timeout, settings, millisPer, config) {
   var self = {};
 
   // Pomato state
@@ -39,7 +40,7 @@ function TimerSvc($timeout, settings, millisPer) {
     time = now;
 
     if (self.counter > 0) {
-      timer = $timeout(countdown, refreshInterval);
+      timer = $timeout(countdown, config.refresh);
     } else {
       state_update();
       sendNotification("Time is up", { body: self.state + " time now"});
@@ -47,7 +48,6 @@ function TimerSvc($timeout, settings, millisPer) {
     }
   }
 
-  var refreshInterval = 1000;
   var timer;
 
   function reset() {
@@ -74,7 +74,7 @@ function TimerSvc($timeout, settings, millisPer) {
   function start() {
     if (!self.running) {
       time = new Date().getTime();
-      timer = $timeout(countdown, refreshInterval);
+      timer = $timeout(countdown, config.refresh);
       self.running = true;
     }
   }
